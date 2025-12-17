@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Joy ❤️</title>
+
+<style>
+/* ---------- GLOBAL STYLES ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+body {
+    height: 100vh;
+    background: url('kisses-bg-2.jpg') center/cover no-repeat fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b00000;
+    overflow: hidden;
+}
+
+/* ---------- CONTAINER ---------- */
+.container {
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+}
+
+/* ---------- ENVELOPE ---------- */
+.envelope {
+    width: 320px;
+    margin: 300px auto 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.envelope img {
+    width: 100%;
+    z-index: 3;
+    position: relative;
+}
+
+/* ---------- LETTER ---------- */
+.letter {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    background: rgba(255, 245, 245, 0.97);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    opacity: 0;
+    z-index: 1;
+}
+
+.letter.show {
+    animation: slideUp 2.5s ease forwards;
+}
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translate(-50%, 80px); }
+    100% { opacity: 1; transform: translate(-50%, -260px); }
+}
+
+/* ---------- LETTER TEXT ---------- */
+.letter p {
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* ---------- SIGN ---------- */
+.signature {
+    margin-top: 15px;
+    font-style: italic;
+    text-align: right;
+}
+
+/* ---------- COUNTDOWN ---------- */
+.countdown {
+    margin-top: 40px;
+    font-size: 22px;
+    display: none;
+}
+
+.time {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+.countdown-title {
+    color: #ffffff;
+}
+
+/* ---------- FADE IN ---------- */
+.fade-in {
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ENVELOPE -->
+    <div class="envelope" onclick="openLetter()">
+        <img src="envelope.png" alt="Envelope">
+        <div class="letter" id="letter">
+            <p id="typedText"></p>
+            <div class="signature">~ for joy</div>
+        </div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown fade-in" id="countdown">
+        <div class="countdown-title">Countdown to Your Day❤️</div>
+        <div class="time" id="timer"></div>
+    </div>
+
+</div>
+
+<script>
+/* ---------- LETTER TEXT ---------- */
+const message = `I don’t think you realize how deeply you’ve changed me just by being yourself. 
+You came into my life without trying to fix anything, and now somehow, I don't feel like a burden to people. 
+Thanks for reminding me that I’m worthy(of everything). You make ordinary moments feel meaningful just by being you.`;
+
+/* ---------- TYPEWRITER EFFECT ---------- */
+let index = 0;
+function typeLetter() {
+    if (index < message.length) {
+        document.getElementById("typedText").innerHTML += message.charAt(index);
+        index++;
+        setTimeout(typeLetter, 35);
+    } else {
+        setTimeout(showCountdown, 1500);
+    }
+}
+
+/* ---------- OPEN LETTER ---------- */
+function openLetter() {
+    const letter = document.getElementById("letter");
+    if (!letter.classList.contains("show")) {
+        letter.classList.add("show");
+        setTimeout(typeLetter, 1200);
+    }
+}
+
+/* ---------- COUNTDOWN ---------- */
+const targetDate = new Date("January 10, 2026 00:00:00").getTime();
+
+function showCountdown() {
+    document.getElementById("countdown").style.display = "block";
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff < 0) {
+        document.getElementById("timer").innerHTML = "Happy Birthday 🎂❤️";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("timer").innerHTML =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+</script>
+
+</body>
+</html>
